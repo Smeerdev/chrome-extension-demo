@@ -1,11 +1,10 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const greetingButton = document.getElementById('greetButton');
-
-  greetingButton.addEventListener('click', () => {
-      // Send a message to the background script
-      chrome.runtime.sendMessage({ type: 'GREETING', greeting: 'Hello, background!' }, (response) => {
-          // Display an alert with the response message
-          alert('Response from background: ' + response.response);
-      });
+document.getElementById('changeColor').addEventListener('click', async () => {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: () => {
+      document.body.style.backgroundColor = '#FFDDC1';
+    },
   });
+  console.log("Color change executed by Sameer's Extension");
 });
